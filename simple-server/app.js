@@ -90,6 +90,15 @@ io.sockets.on('connection', function (socket) {
      
 });
 
+/* GET users listing. */
+app.post('/api/v1/plant/stats/', function(req, res, next) {
+
+  console.log(req.body)
+  for (var i = 0; i < sockets.length; i++) {
+                 sockets[i].emit('grow',sendData);
+              };
+});
+
   var SerialPort = require("serialport").SerialPort;
   //Reemplazalo con el tuyo :)
   var port = "/dev/cu.usbmodem1411";
