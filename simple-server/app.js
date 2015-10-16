@@ -114,7 +114,7 @@ app.post('/api/v1/plant/stats/', function(req, res, next) {
           if (receivedData.indexOf('E') >= 0 && receivedData.indexOf('B') >= 0) {
            // save the data between 'B' and 'E'
              sendData = receivedData .substring(receivedData.indexOf('B') + 1, receivedData .indexOf('E'));
-             
+              
              try {
               //Limpio String
              sendData = sendData.replace('E','');
