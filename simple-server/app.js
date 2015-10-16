@@ -100,20 +100,32 @@ io.sockets.on('connection', function (socket) {
   serialPort.on("open", function() {
       console.log('Arudino online!');
       serialPort.on('data', function(data) {
-          
-
           receivedData += data.toString();
           
           if (receivedData.indexOf('E') >= 0 && receivedData.indexOf('B') >= 0) {
            // save the data between 'B' and 'E'
              sendData = receivedData .substring(receivedData.indexOf('B') + 1, receivedData .indexOf('E'));
-             receivedData = '';
-             console.log('recieving ', sendData);
-             //uncomment me for broadcast! 
              
-             // for (var i = 0; i < sockets.length; i++) {
-             //   sockets[i].emit('grow',{size: receivedData});
-             // };
+             try {
+              //Limpio String
+             sendData = sendData.replace('E','');
+             sendData = sendData.replace('B','');
+             
+              //uncomment me for broadcast! 
+              console.log(sendData);
+              sendData = JSON.parse(sendData.trim());
+                console.log('recieving ', sendData);
+              for (var i = 0; i < sockets.length; i++) {
+                 sockets[i].emit('grow',sendData);
+              };
+             }
+             catch(e){
+              console.log(e);
+              //None, just ignore errors...
+             }
+
+             
+             receivedData = '';
            }
 
       });
